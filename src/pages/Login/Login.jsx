@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { user } from '../../utils/http.js'
 import {
   Form,
+  Button,
   FormGroup,
   Container,
   Row,
@@ -10,23 +12,45 @@ import './Login.css'
 
 
 const Login = () => {
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
 
-
+  const handleForm = async (e) => {
+    try {
+      e.preventDefault()
+      const body = { email, password }
+      const response = await user.login(body)
+      console.log(response)
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
 
   return (
     <React.Fragment>
       <Container>
         <Row>
           <Col md={{ span: 6, offset: 3 }}>
-            <Form>
+            <Form onSubmit={handleForm}>
               <FormGroup>
                 <label> Email </label>
-                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Control
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="Enter email"
+                />
               </FormGroup>
               <FormGroup>
                 <label> Password </label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="Password"
+                />
               </FormGroup>
+              <Button type="submit">Submit</Button>
             </Form>
           </Col>
         </Row>
