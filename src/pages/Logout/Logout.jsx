@@ -4,7 +4,9 @@ import { Redirect } from 'react-router-dom'
 
 const Logout = () => {
   const { logOut } = useContext(AuthContext)
-  logOut()
+  useEffect(() => {
+    logOut()
+  })
   return (
     <Redirect to="/"/>
   )
