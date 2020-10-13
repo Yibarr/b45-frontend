@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import { user } from '../../utils/http.js'
+import React, { useState, useContext } from 'react'
+import { AuthContext } from '../../context/AuthContext.js'
+import { Redirect } from 'react-router-dom'
+import { auth } from '../../utils/http.js'
 import {
   Form,
   Button,
@@ -10,21 +12,14 @@ import {
 } from 'react-bootstrap'
 
 const Signup = () => {
+  const { isAuth } = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [first_name, setfirstName] = useState('')
   const [phone_number, setphoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [last_name, setlastName] = useState('')
+  const [redirect, setRedirect] = useState(false)
   
-
-//   {
-//     "email": "u@devf.mx",
-//     "first_name": "im back",
-//     "last_name": "lala",
-//     "phone_number": "5514079633",
-//     "password": "123123"
-// }
-
   const handleForm = async (e) => {
     try {
       e.preventDefault()
@@ -35,9 +30,10 @@ const Signup = () => {
         phone_number,
         password
       }
-      const response = await user.signup(body)
-      console.log(response)
+      await auth.signup(body)
+      setRedirect(true)
     } catch (error) {
+      console.log(error)
       console.error(error.message)
     }
   }
@@ -96,6 +92,7 @@ const Signup = () => {
           </Col>
         </Row>
       </Container>
+      { redirect || isAuth ? <Redirect to="/login" /> : null}
     </React.Fragment>
   )
 }

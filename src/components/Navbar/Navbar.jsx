@@ -1,13 +1,53 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext.js'
 import { Link } from 'react-router-dom'
 
 import {
   Navbar,
-  Button,
-  NavLink
+  Button
 } from 'react-bootstrap'
 
 const Navigation = () => {
+  const { isAuth } = useContext(AuthContext)
+
+  const toggleNav = () => {
+    return isAuth
+      ? (
+        <Link
+            to="/logout"
+          >
+            <Button
+              variant="warning"
+            >
+              Cerrar sesión
+            </Button>
+          </Link>
+      )
+      : (
+        <div>
+          <Link
+            to="/signup"
+          >
+            <Button
+              variant="warning"
+            >
+              Registro
+            </Button>
+          </Link>
+          <Link
+            className="ml-4"
+            to="/login"
+          >
+            <Button
+              variant="warning"
+            >
+              Inicia sesión
+            </Button>
+          </Link>
+        </div>
+      )
+  }
+
   return (
     <div>
       <Navbar bg="light">
@@ -16,27 +56,11 @@ const Navigation = () => {
             Buena onda App
           </Navbar.Brand>
         </Link>
-        <Link
-          className="ml-auto"
-          to="/signup"
-        >
-          <Button
-            variant="warning"
-          >
-            Registro
-          </Button>
-        </Link>
-        <Link
-          className="ml-4"
-          to="/login"
-        >
-          <Button
-            variant="warning"
-          >
-            Inicia sesión
-
-          </Button>
-        </Link>
+        <div className="ml-auto">
+          {
+            toggleNav()
+          }
+        </div>
       </Navbar>
     </div>
   )

@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
-import { user } from '../../utils/http.js'
+import React, { useState, useContext } from 'react'
+import { Redirect } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext.js'
+import { auth } from '../../utils/http.js'
 import {
   Form,
   Button,
@@ -12,6 +14,7 @@ import './Login.css'
 
 
 const Login = () => {
+  const { isAuth, logIn } = useContext(AuthContext)
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
 
@@ -19,8 +22,9 @@ const Login = () => {
     try {
       e.preventDefault()
       const body = { email, password }
-      const response = await user.login(body)
-      console.log(response)
+      const response = await auth.login(body)
+      const newToken = response.data.token
+      logIn(newToken)
     } catch (error) {
       console.error(error.message)
     }
@@ -55,6 +59,7 @@ const Login = () => {
           </Col>
         </Row>
       </Container>
+      { isAuth ? <Redirect to="/"/> : null}
     </React.Fragment>
   )
 }
