@@ -9,6 +9,7 @@ import Home from './pages/Home/Home.jsx'
 import Login from './pages/Login/Login.jsx'
 import Logout from './pages/Logout/Logout.jsx'
 import Signup from './pages/Signup/Signup.jsx'
+import Profile from './pages/Profile/Profile.jsx'
 import NotFound from './pages/NotFound/NotFound.jsx'
 
 export default
@@ -25,11 +26,15 @@ export default
       exact path="/signup"
       component={ Signup }
     />
-    <Route
+    <PrivateRoute
       exact path="/logout"
       component={ Logout }
     />
     <PrivateRoute
+      exact path="/profile/:id"
+      component={ Profile }
+    />
+    <Route
       component={ NotFound }
     />
   </Switch>

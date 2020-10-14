@@ -7,14 +7,20 @@ import {
   Button
 } from 'react-bootstrap'
 
+import './Navbar.css'
+
 const Navigation = () => {
-  const { isAuth } = useContext(AuthContext)
+  const { isAuth, user } = useContext(AuthContext)
 
   const toggleNav = () => {
     return isAuth
       ? (
-        <Link
-            to="/logout"
+        <div className="logged-nav-section">
+          <Link to={`/profile/${user.id}`}>
+            <span className="mr-5 username-nav" >{user.first_name}</span>
+          </Link>
+          <Link
+              to="/logout"
           >
             <Button
               variant="warning"
@@ -22,6 +28,7 @@ const Navigation = () => {
               Cerrar sesión
             </Button>
           </Link>
+        </div>
       )
       : (
         <div>
@@ -52,7 +59,7 @@ const Navigation = () => {
     <div>
       <Navbar bg="light">
         <Link to="/">
-          <Navbar.Brand>
+          <Navbar.Brand className="brand-nav">
             Buena onda App
           </Navbar.Brand>
         </Link>

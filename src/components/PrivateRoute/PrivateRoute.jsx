@@ -12,6 +12,7 @@ const PrivateRoute = ({ component, ...RouteProps }) => {
   const { isAuth } = useContext(AuthContext)
   const validateAuth = (props) => {
     const Component = component
+    
     return isAuth
       ? (<Component {...props}/>)
       : (<Redirect to="/login" />)
